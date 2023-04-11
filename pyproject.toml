@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "3Xpy"
+name = "X3py"
 version = "0.0.1"
-description = "3D Xanes python processing tool"
+description = "Xanes 3D python processing tool"
 authors = ["Alberto Mittone <alberto.mittone@gmail.com>"]
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/mittoalb/3Xpy"
-repository = "https://github.com/mittoalb/3Xpy"
+homepage = "https://github.com/mittoalb/X3py"
+repository = "https://github.com/mittoalb/X3py"
 keywords = ["XANES", "Image Registration", "3D"]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -20,7 +20,7 @@ python = ">=3.7"
 #h5py
 
 [tool.poetry.scripts]
-rcorr = "3Xpy:main"
+rcorr = "X3py:main"
 
 [build-system]
 requires = ["poetry-core>=1.1.0"]
