@@ -1,0 +1,4 @@
+scipy
+SimpleITK
+h5py
+
