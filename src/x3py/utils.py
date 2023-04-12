@@ -1,5 +1,6 @@
 import h5py
 import numpy as np
+import os
 
 def readh5(file_name):
 	"""
@@ -26,3 +27,36 @@ def writeh5(file_name,buff, darks, flats, theta):
 		c = a.create_dataset('data_dark',data=darks,dtype='float32')
 		d = a.create_dataset('data_white',data=flats,dtype='float32')
 		e = a.create_dataset('theta',data=theta)
+		
+		
+def make_dir(fname):
+	if not os.path.exists(fname):
+		os.system('mkdir ' + fname)
+	else:
+		pass
+
+import multiprocessing as mp
+from contextlib import closing
+
+def distribute_jobs(func,proj):
+	"""
+	Distribute a func over proj on different cores
+	"""
+	args = []
+	pool_size = int(mp.cpu_count()/2)
+	chunk_size = int((len(proj) - 1) / pool_size + 1)
+	pool_size = int(len(proj) / chunk_size + 1)
+	for m in range(pool_size):
+		ind_start = int(m * chunk_size)
+		ind_end = (m + 1) * chunk_size
+		if ind_start >= int(len(proj)):
+			break
+		if ind_end > len(proj):
+			ind_end = int(len(proj))
+		args += [range(ind_start, ind_end)]
+	mp.set_start_method('fork')
+	with closing(mp.Pool(processes=pool_size)) as p:
+		out = p.map_async(func, proj)
+	out.get()
+	p.close()		
+	p.join()	
