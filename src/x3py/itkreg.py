@@ -20,7 +20,7 @@ class ITKregister():
 		tmp.insert(-1,'corrected')
 		tmp = tmp[:-1]
 	 	
-		self.out_name = '/'.join(tmp)
+		self.out_f = '/'.join(tmp)
 		ext = self.ref.split('.')[-1]
 
 		total = glob.glob(folder + "/*." + ext)
@@ -46,7 +46,8 @@ class ITKregister():
 		ar_moving, ar_mvflat, ar_mvdark, theta = readh5(self.file_list[i])
 		
 		#Create outname
-		self.out_name = self.out_name + self.file_list[i]
+		tmp = self.file_list[i].split('/')
+		self.out_name = self.out_f + '/' + tmp[-1]
 		x3logging.logger.info("File will be saved as: ")
 		x3logging.logger.info(self.out_name)
 
@@ -83,7 +84,8 @@ class ITKregister():
 		
 		#Save the data
 		writeh5(self.out_name,self.buff, self.buffD, self.buffF, theta)
-		x3logging.logger.info(self.out_name,' written\n')
+		x3logging.logger.info(self.out_name)
+		x3logging.logger.info('written\n')
 
 	def TranslationTransform(self):
 		
