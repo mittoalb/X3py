@@ -1,4 +1,5 @@
 scipy
 SimpleITK
 h5py
-
+json
+logging

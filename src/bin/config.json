@@ -1,0 +1,1 @@
+{"Create on": "2023-04-13", "ref_name": "/local/data/alberto/raw/P-1C_258.h5", "maxStep": 4.0, "minStep": 0.01, "numberOfIterations": 100, "relaxationFactor": 0.5, "SetDefaultPixelValue": 1.0, "gradientConvergenceTolerance": 1e-05, "maximumNumberOfCorrections": 5, "maximumNumberOfFunctionEvaluations": 1000, "costFunctionConvergenceFactor": 10000000.0, "FDreg": 0.001}

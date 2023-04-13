@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "X3py"
+name = "x3py"
 version = "0.0.1"
 description = "Xanes 3D python processing tool"
 authors = ["Alberto Mittone <alberto.mittone@gmail.com>"]
@@ -20,7 +20,12 @@ python = ">=3.7"
 #h5py
 
 [tool.poetry.scripts]
-rcorr = "X3py:main"
+rcorr = "bin.x3py-cli:main"
+
+
+#[tool.setuptools.entry_points]
+#console_scripts = ["x3py = bin/x3py-cli:main"]
+
 
 [build-system]
 requires = ["poetry-core>=1.1.0"]

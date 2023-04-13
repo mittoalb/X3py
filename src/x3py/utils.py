@@ -23,11 +23,10 @@ def writeh5(file_name,buff, darks, flats, theta):
 	"""
 	with h5py.File(file_name,'w') as f:
 		a = f.create_group('exchange')
-		b = a.create_dataset('data',data=buff,dtype='float32')
-		c = a.create_dataset('data_dark',data=darks,dtype='float32')
-		d = a.create_dataset('data_white',data=flats,dtype='float32')
-		e = a.create_dataset('theta',data=theta)
-		
+		a.create_dataset('data',data=buff,dtype='float32')
+		a.create_dataset('data_dark',data=darks,dtype='float32')
+		a.create_dataset('data_white',data=flats,dtype='float32')
+		a.create_dataset('theta',data=theta)
 		
 def make_dir(fname):
 	if not os.path.exists(fname):
@@ -54,9 +53,9 @@ def distribute_jobs(func,proj):
 		if ind_end > len(proj):
 			ind_end = int(len(proj))
 		args += [range(ind_start, ind_end)]
-	mp.set_start_method('fork')
+	#mp.set_start_method('fork')
 	with closing(mp.Pool(processes=pool_size)) as p:
 		out = p.map_async(func, proj)
 	out.get()
 	p.close()		
-	p.join()	
+	p.join()
