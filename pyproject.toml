@@ -18,12 +18,21 @@ classifiers = [
 python = "=3.11.2"
 simpleITK = ">=2.2.1"
 h5py = ">=3.8.0"
-cudatoolkit=">=11.0"
-logging = ">=0.5.1.2"
+scikit-build="0.17.3"
+swig="4.1.1"
+opencv-python="4.7.0"
+tifffile="2023.4.12"
+python="3.11.2"
+nvidia-ml-py3="7.352.0"
+fabio="2023.4.1"
+
+
+#cudatoolkit=">=11.0"
+#logging = ">=0.5.1.2"
 #cupy = ">=12.0.0"
 
-[tool.poetry.scripts]
-rcorr = "bin.x3py-cli:main"
+#[tool.poetry.scripts]
+#rcorr = "bin.x3py-cli:main"
 
 
 #[tool.setuptools.entry_points]
@@ -38,4 +47,4 @@ build-backend = "poetry.core.masonry.api"
 #packages = [
 #    { include = "my-package" },
 #    { include = "my-package/**/*.py" },
-#]
+#]ge
