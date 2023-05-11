@@ -1,0 +1,9 @@
+Exhaustive
+Nelder-Mead downhill simplex (Amoeba)
+Powell
+1+1 evolutionary optimizer
+Gradient Descent
+Gradient Descent Line Search
+Regular Step Gradient Descent
+Conjugate Gradient Line Search
+L-BFGS-B. Limited memory Broyden, Fletcher, Goldfarb, Shannon, Bound Constrained (supports the use of simple constraints).

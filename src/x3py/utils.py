@@ -1,6 +1,7 @@
 import h5py
 import numpy as np
 import os
+import fabio
 
 def readh5(file_name):
 	"""
@@ -59,3 +60,31 @@ def distribute_jobs(func,proj):
 	out.get()
 	p.close()		
 	p.join()
+
+def readTIFF(file_name):
+	return fabio.open(file_name)
+
+def writeTIFF(file_name,data):
+	data.write(file_name)
+	
+
+def GPURAM():
+	"""
+	Return the free and total GPU RAM of n devices
+	"""
+	import nvidia_smi
+	
+	nvidia_smi.nvmlInit()
+	
+	deviceCount = nvidia_smi.nvmlDeviceGetCount()
+	free_ram = np.zeros(deviceCount)
+	total_ram = np.zeros(deviceCount)
+
+	for i in range(deviceCount):
+		handle = nvidia_smi.nvmlDeviceGetHandleByIndex(i)
+		info = nvidia_smi.nvmlDeviceGetMemoryInfo(handle)
+		free_ram[i] = info.free
+		total_ram[i] = info.total
+		
+	nvidia_smi.nvmlShutdown()
+	return free_ram, total_ram

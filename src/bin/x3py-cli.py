@@ -58,11 +58,13 @@ def main():
 
 #Prepare the job runner
 def runreg(CTdatasets):
-	itkr.ImgProc(CTdatasets)
+	itkr.ImgProcH5(CTdatasets)
 
 
 if __name__ == "__main__":
 	
 	itkr, CTdatasets = main()
 	#exit(0)
+	#for i in CTdatasets:
+	#	runreg(i)
 	distribute_jobs(runreg, CTdatasets)
