@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # *************************************************************************** #
-#                  Copyright © 2022, UChicago Argonne, LLC                    #
+#                  Copyright © 2023, UChicago Argonne, LLC                    #
 #                           All Rights Reserved                               #
 #                         Software Name: Tomocupy                             #
 #                     By: Argonne National Laboratory                         #
@@ -36,15 +36,8 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS          #
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                #
 # *************************************************************************** #
-from x3py import data
-from x3py import x3logging
-from x3py import config
-from x3py import utils
+"""
+Created on Thu Apr 13 11:51:30 2023
 
-
-from x3py import fit_methods
-from x3py import x3fit
-
-from x3py import reg_methods
-from x3py import x3reg
-from x3py import x3GUI
+@author: amittone
+"""

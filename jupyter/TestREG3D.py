@@ -36,15 +36,15 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS          #
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                #
 # *************************************************************************** #
-from x3py import data
-from x3py import x3logging
-from x3py import config
+"""
+Created on Wed May 10 15:39:13 2023
+
+@author: amittone
+
+x3py data structure & Reader
+
+
+"""
 from x3py import utils
 
-
-from x3py import fit_methods
-from x3py import x3fit
-
-from x3py import reg_methods
-from x3py import x3reg
-from x3py import x3GUI
+print('Here')

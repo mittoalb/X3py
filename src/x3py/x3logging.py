@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 # *************************************************************************** #
-#                  Copyright © 2023, UChicago Argonne, LLC                    #
+#                  Copyright © 2022, UChicago Argonne, LLC                    #
 #                           All Rights Reserved                               #
 #                         Software Name: Tomocupy                             #
 #                     By: Argonne National Laboratory                         #
@@ -45,17 +44,18 @@ Created on Thu Apr 13 12:55:13 2023
 
 #importing the module 
 import logging 
-
+from logging import *
+import traceback
 #now we will Create and configure logger 
-logging.basicConfig(filename="x3py.log", 
-					format='%(asctime)s %(message)s', 
-					filemode='w') 
+#logging.basicConfig(filename="x3py.log", 
+#					format='%(asctime)s %(message)s', 
+#					filemode='w') 
 
 #Let us Create an object 
-logger=logging.getLogger() 
+#logger=logging.getLogger() 
 
 #Now we are going to Set the threshold of logger to DEBUG 
-logger.setLevel(logging.DEBUG) 
+#logger.setLevel(logging.DEBUG) 
 
 #some messages to test
 #logger.debug("") 
@@ -63,6 +63,72 @@ logger.setLevel(logging.DEBUG)
 #logger.warning("") 
 #logger.error("") 
 #logger.critical("") 
+
+
+
+__all__ = ['setup_custom_logger', 'ColoredLogFormatter'] + logging.__all__
+
+def log_exception(logger, err, fmt="%s"):
+    """Send a reconstructed stacktrace to the log.
+
+    The stacktrace will be sent to the error log for the given logger.
+
+    Parameters
+    ==========
+    logger
+      A logger, as returned by ``logging.getLogger(...)``
+    err
+      An exception to log.
+    fmt
+      Logging format string for each line of the exception
+      (e.g. "  *** %s"")
+    
+    """
+    tb_lines = traceback.format_exception(type(err), err, err.__traceback__)
+    tb_lines = [ln for lns in tb_lines for ln in lns.splitlines()]
+    for tb_line in tb_lines:
+        logger.error("      %s", tb_line)
+
+
+def setup_custom_logger(lfname: str=None, stream_to_console: bool=True, level=logging.DEBUG):
+    """Prepare the logging system with custom formatting.
+    
+    This adds handlers to the *tomocupy* parent logger. Any logger
+    inside tomocupy will produce output based on this functions
+    customization parameters. The file given in *lfname* will receive
+    all log message levels, while the console will receive messages
+    based on *level*.
+    
+    Parameters
+    ----------
+    lfname
+      Path to where the log file should be stored. If omitted, no file
+      logging will be performed.
+    stream_to_console
+      If true, logs will be output to the console with color
+      formatting.
+    level
+      A logging level for the stream handler. This can be either a
+      string ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"), or an
+      actual level defined in the python logging framework.
+
+    """
+    parent_name = __name__.split('.')[0]  # Nominally "tomocupy"
+    parent_logger = logging.getLogger(parent_name)
+    parent_logger.setLevel(logging.DEBUG)
+    # Set up normal output to a file
+    if lfname is not None:
+        fHandler = logging.FileHandler(lfname)
+        file_formatter = logging.Formatter('%(asctime)s - %(name)s(%(lineno)s) - %(levelname)s: %(message)s')
+        fHandler.setFormatter(file_formatter)
+        fHandler.setLevel(logging.DEBUG)
+        parent_logger.addHandler(fHandler)
+    # Set up formatted output to the console
+    if stream_to_console:
+        ch = logging.StreamHandler()
+        ch.setFormatter(ColoredLogFormatter('%(asctime)s - %(message)s'))
+        ch.setLevel(level)
+        parent_logger.addHandler(ch)
 
 class ColoredLogFormatter(logging.Formatter):
 	"""A logging formatter that add console color codes."""

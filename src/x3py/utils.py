@@ -1,34 +1,50 @@
-import h5py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# *************************************************************************** #
+#                  Copyright © 2022, UChicago Argonne, LLC                    #
+#                           All Rights Reserved                               #
+#                         Software Name: Tomocupy                             #
+#                     By: Argonne National Laboratory                         #
+#                                                                             #
+#                           OPEN SOURCE LICENSE                               #
+#                                                                             #
+# Redistribution and use in source and binary forms, with or without          #
+# modification, are permitted provided that the following conditions are met: #
+#                                                                             #
+# 1. Redistributions of source code must retain the above copyright notice,   #
+#    this list of conditions and the following disclaimer.                    #
+# 2. Redistributions in binary form must reproduce the above copyright        #
+#    notice, this list of conditions and the following disclaimer in the      #
+#    documentation and/or other materials provided with the distribution.     #
+# 3. Neither the name of the copyright holder nor the names of its            #
+#    contributors may be used to endorse or promote products derived          #
+#    from this software without specific prior written permission.            #
+#                                                                             #
+#                                                                             #
+# *************************************************************************** #
+#                               DISCLAIMER                                    #
+#                                                                             #
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS         #
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT           #
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS           #
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT    #
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,      #
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED    #
+# TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR      #
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF      #
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING        #
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS          #
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                #
+# *************************************************************************** #
+"""
+Created on Thu Apr 13 11:51:30 2023
+
+@author: amittone
+"""
 import numpy as np
 import os
-import fabio
-
-def readh5(file_name):
-	"""
-		Read HDF5 file, return numpy arrays
-	"""
-	fx = h5py.File(file_name,'r')
-	fixed, fxflat, fxdark, theta = fx['/exchange/data'], fx['/exchange/data_white'], fx['/exchange/data_dark'], fx['/exchange/theta']
-
-	#Convert into numpy array
-	ar_fixed = np.asarray(fixed)
-	ar_fxflat = np.asarray(fxflat)
-	ar_fxdark = np.asarray(fxdark)
-	
-	return ar_fixed, ar_fxflat, ar_fxdark, theta
 
 
-def writeh5(file_name,buff, darks, flats, theta):
-	"""
-		Write a HDF5 file. Minimal data structure compatible with tomography reconstructions.
-	"""
-	with h5py.File(file_name,'w') as f:
-		a = f.create_group('exchange')
-		a.create_dataset('data',data=buff,dtype='float32')
-		a.create_dataset('data_dark',data=darks,dtype='float32')
-		a.create_dataset('data_white',data=flats,dtype='float32')
-		a.create_dataset('theta',data=theta)
-		
 def make_dir(fname):
 	if not os.path.exists(fname):
 		os.system('mkdir ' + fname)
@@ -60,14 +76,7 @@ def distribute_jobs(func,proj):
 	out.get()
 	p.close()		
 	p.join()
-
-def readTIFF(file_name):
-	return fabio.open(file_name)
-
-def writeTIFF(file_name,data):
-	data.write(file_name)
 	
-
 def GPURAM():
 	"""
 	Return the free and total GPU RAM of n devices
@@ -87,4 +96,43 @@ def GPURAM():
 		total_ram[i] = info.total
 		
 	nvidia_smi.nvmlShutdown()
-	return free_ram, total_ram
+	return free_ram, 
+
+
+
+
+from treelib import Node, Tree, node
+import json
+
+def json_2_tree(contents, parent_id=None, tree=None, counter_byref=[0], verbose=False, listsNodeSymbol='+'):
+	if tree is None:
+		tree = Tree()
+		root_id = counter_byref[0]
+		if verbose:
+			print(f"tree.create_node({'+'}, {root_id})")
+		tree.create_node('+', root_id)
+		counter_byref[0] += 1
+		parent_id = root_id
+	if type(contents) == dict:
+		for k,v in contents.items():
+			this_id = counter_byref[0]
+			if verbose:
+				print(f"tree.create_node({str(k)}, {this_id}, parent={parent_id})")
+			tree.create_node(str(k), this_id, parent=parent_id)
+			counter_byref[0]  += 1
+			json_2_tree(v , parent_id=this_id, tree=tree, counter_byref=counter_byref, verbose=verbose, listsNodeSymbol=listsNodeSymbol)
+	elif type(contents) == list:
+		if listsNodeSymbol is not None:
+			if verbose:
+				print(f"tree.create_node({listsNodeSymbol}, {counter_byref[0]}, parent={parent_id})")
+			tree.create_node(listsNodeSymbol, counter_byref[0], parent=parent_id)
+			parent_id=counter_byref[0]
+			counter_byref[0]  += 1        
+		for i in contents:
+			json_2_tree(i , parent_id=parent_id, tree=tree, counter_byref=counter_byref, verbose=verbose,listsNodeSymbol=listsNodeSymbol)
+	else: #node
+		if verbose:
+			print(f"tree.create_node({str(contents)}, {counter_byref[0]}, parent={parent_id})")
+		tree.create_node(str(contents), counter_byref[0], parent=parent_id)
+		counter_byref[0] += 1
+	return tree

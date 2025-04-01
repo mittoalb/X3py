@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # *************************************************************************** #
-#                  Copyright © 2022, UChicago Argonne, LLC                    #
+#                  Copyright © 2023, UChicago Argonne, LLC                    #
 #                           All Rights Reserved                               #
 #                         Software Name: Tomocupy                             #
 #                     By: Argonne National Laboratory                         #
@@ -36,15 +36,32 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS          #
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                #
 # *************************************************************************** #
-from x3py import data
+"""
+Created on Thu Apr 13 11:51:30 2023
+
+@author: amittone
+"""
+
+from x3py.utils import distribute_jobs
+from x3py.data import readh5, readTIFVOL, saveTIFVOL, getFolderList, writeh5REG, writeh5APS
+import numpy as np
+import SimpleITK as sitk
+import glob
 from x3py import x3logging
-from x3py import config
-from x3py import utils
+import x3py.reg_methods as rgm
+import sys
 
+x3l = x3logging.getLogger(__name__)
+x3l.setLevel(x3logging.DEBUG)
 
-from x3py import fit_methods
-from x3py import x3fit
-
-from x3py import reg_methods
-from x3py import x3reg
-from x3py import x3GUI
+class x3FIT():
+	#Initialize data registration methods
+	def __init__(self):
+		x3l.info('Initialization x3FIT\n')
+		
+		
+	def readData(self):
+		x3l.info('Read data x3FIT\n')
+		
+	def getData(self,data):
+		self.data = data
