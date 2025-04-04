@@ -15,41 +15,26 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-#python = "=>3.11.2"
+#python = ">=3.11,<4.0"
 simpleITK = ">=2.2.1"
 h5py = ">=3.8.0"
 scikit-build = ">=0.17.3"
 swig = ">=4.1.1"
 opencv-python = ">=4.7.0"
 tifffile = ">=2023.4.12"
-python = "3.11.2"
-nvidia-ml-py3 =" >=7.352.0"
+nvidia-ml-py3 = ">=7.352.0"
 fabio = ">=2023.4.1"
 matplotlib = ">=3.7.1"
-jupyter = ">= 1.0.0"
+jupyter = ">=1.0.0"
 treelib = ">=1.6.1"
-ipywidgets = "8.0.6"
+ipywidgets = ">=8.0.6"
 napari = ">=0.4.17"
-pyimagej = "1.4.1"
+pyimagej = ">=1.4.1"
+click = "8.1.7"
 
-#cudatoolkit=">=11.0"
-#logging = ">=0.5.1.2"
-#cupy = ">=12.0.0"
-
-#[tool.poetry.scripts]
-#rcorr = "bin.x3py-cli:main"
-
-
-#[tool.setuptools.entry_points]
-#console_scripts = ["x3py = bin/x3py-cli:main"]
-
+[tool.poetry.scripts]
+x3py = "x3py.x3py_cli:main"
 
 [build-system]
 requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
-
-
-#packages = [
-#    { include = "my-package" },
-#    { include = "my-package/**/*.py" },
-#]ge

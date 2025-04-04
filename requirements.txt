@@ -7,7 +7,7 @@ scikit-build=0.17.3
 swig=4.1.1
 opencv-python=4.7.0
 tifffile=2023.4.12
-python=3.11.2
+#python=3.11.2
 nvidia-ml-py3
 fabio=2023.4.1
 matplotlib
